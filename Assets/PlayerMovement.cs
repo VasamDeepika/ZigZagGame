@@ -28,5 +28,6 @@ public class PlayerMovement : MonoBehaviour
             }
         }
         transform.Translate(dir * playerSpeed * Time.deltaTime);
+
     }
 }
