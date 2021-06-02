@@ -1,23 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class TileManager : MonoBehaviour
+
+public class GameController : MonoBehaviour
 {
-    public GameObject [] Tiles;
-    public GameObject currentTile;
     public PlayerMovement player;
     public Camera camfollow;
+    public GameObject[] blocks;
     public float blockArrowPointer = -10;
-    public float safeMargin = 10;
-    //public GameObject forwardTile;
-    // Start is called before the first frame update
+    public float safeMargin = 20;
     void Start()
     {
-        /*for (int i = 0; i < 20; i++)
-        {
-            SpawnTile();
-        }*/
+
     }
 
     // Update is called once per frame
@@ -25,24 +21,23 @@ public class TileManager : MonoBehaviour
     {
         while (player != null && blockArrowPointer < player.transform.position.x + safeMargin)
         {
-            int value = Random.Range(0, Tiles.Length);
+            int value = Random.Range(0, blocks.Length);
             if (blockArrowPointer < 10)
             {
                 value = 0;
             }
-            GameObject blocksPrefab = Instantiate(Tiles[value]);
+            GameObject blocksPrefab = Instantiate(blocks[value]);
             BlockSize bs = blocksPrefab.GetComponent<BlockSize>();
-            SpawnTile();
+            blocksPrefab.transform.position = new Vector3(blockArrowPointer + bs.blockSize / 2, 0, 0);
             blockArrowPointer += bs.blockSize;
         }
+
         if (player != null)
         {
             camfollow.transform.position = new Vector3(player.transform.position.x, camfollow.transform.position.y, camfollow.transform.position.z);
         }
+
+
     }
-    void SpawnTile()
-    {
-        int index = Random.Range(0, 2);
-        currentTile =(GameObject) Instantiate(Tiles[index], currentTile.transform.GetChild(index).position, Quaternion.identity);
-    }
+
 }
